@@ -1,4 +1,10 @@
 # Step One- Fill out the CAPSTONE_REPO_NAME and GITHUB_GROUP_NAME in all LOWERCASE.
+export GITHUB_TOKEN='3MgquNZ6iUxeUhcadvZgvtDkTV522c1crTZZs'
+CAPSTONE_REPO_NAME=https://github.com/KenzieAcademy-SoftwareEngineering/ata-lbc-project-TiffanyHunnicutt
+GITHUB_GROUP_NAME=girlswhocode
+
+
+
 
 # Step Two - configure your shell to always have these variables.
 # For OSX / Linux
