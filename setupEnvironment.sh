@@ -1,10 +1,8 @@
 # Step One- Fill out the CAPSTONE_REPO_NAME and GITHUB_GROUP_NAME in all LOWERCASE.
-export GITHUB_TOKEN='3MgquNZ6iUxeUhcadvZgvtDkTV522c1crTZZs'
+export GITHUB_TOKEN='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'
+export GITHUB_USERNAME=mateahl
 CAPSTONE_REPO_NAME=https://github.com/KenzieAcademy-SoftwareEngineering/ata-lbc-project-TiffanyHunnicutt
 GITHUB_GROUP_NAME=girlswhocode
-
-
-
 
 # Step Two - configure your shell to always have these variables.
 # For OSX / Linux
@@ -20,8 +18,8 @@ GITHUB_GROUP_NAME=girlswhocode
 
 # Fill out the following values
 # The path of your repo on github. Don't include the whole URL, just the part after github.com/KenzieAcademy-SoftwareEngineering/
-export LBC_GROUP_NAME=replacethiswithyourgroupname
-export LBC_REPO_NAME=ata-lbc-project-$GITHUB_USERNAME
+export LBC_GROUP_NAME=girlswhocode
+export LBC_REPO_NAME=ata-lbc-project-TiffanyHunnicutt
 
 # Do not modify the rest of these unless you have been instructed to do so.
 export LBC_PROJECT_NAME=lbcproject
