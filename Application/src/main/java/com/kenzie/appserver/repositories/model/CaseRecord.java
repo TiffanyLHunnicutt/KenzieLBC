@@ -5,6 +5,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import net.bytebuddy.matcher.StringSetMatcher;
 
+import java.util.List;
+
 //tati is doing record this week for model
 @DynamoDBTable(tableName = "CaseRecord")
 public class CaseRecord {
@@ -15,8 +17,7 @@ public class CaseRecord {
     public String description;
     public String location;
     public String TimeDate;
-    // elise please look at the following line, StringSet was redlining so I went with that
-    public StringSetMatcher potentialSuspects;
+    public List<String> potentialSuspects;
     public Boolean openCase;
 
     @DynamoDBRangeKey(attributeName = "caseId")
@@ -55,7 +56,7 @@ public class CaseRecord {
     }
 
     @DynamoDBAttribute(attributeName = "potentialSuspects")
-    public StringSetMatcher getPotentialSuspects() {
+    public List<String> getPotentialSuspects() {
         return potentialSuspects;
     }
 
@@ -63,8 +64,5 @@ public class CaseRecord {
     public Boolean getOpenCase() {
         return openCase;
     }
-
-
-
 
 }
