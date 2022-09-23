@@ -1,15 +1,17 @@
 package com.kenzie.appserver.service.model;
 
-public class Evidence {
-    private String caseId;
-    private String evidenceId;
-    private String timeStamp;
-   private String location;
-   private String timeDate;
-    private String author;
-   private String description;
+import java.util.UUID;
 
-    public Evidence(String caseId, String evidenceId, String timeStamp, String location, String timeDate, String author, String description) {
+public class Evidence {
+    private final UUID caseId;
+    private final UUID evidenceId;
+    private final String timeStamp;
+    private String location;
+    private String timeDate;
+    private String author;
+    private String description;
+
+    public Evidence(UUID caseId, UUID evidenceId, String timeStamp, String location, String timeDate, String author, String description) {
         this.caseId = caseId;
         this.evidenceId = evidenceId;
         this.timeStamp = timeStamp;
@@ -19,11 +21,11 @@ public class Evidence {
         this.description = description;
     }
 
-    public String getCaseId() {
+    public UUID getCaseId() {
         return caseId;
     }
 
-    public String getEvidenceId() {
+    public UUID getEvidenceId() {
         return evidenceId;
     }
 
@@ -47,6 +49,3 @@ public class Evidence {
         return description;
     }
 }
-
-
-

@@ -1,9 +1,10 @@
 package com.kenzie.appserver.service.model;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Case {
-    private final String caseId;
+    private final UUID caseId;
     private final String timeStamp;
     private String title;
     private String author;
@@ -13,7 +14,7 @@ public class Case {
     private List<String> potentialSuspects;
     private Boolean openCase;
 
-    public Case(String caseId, String location,String timeStamp, String title, String author, String description, String timeDate, List<String> potentialSuspects, Boolean openCase) {
+    public Case(UUID caseId, String location, String timeStamp, String title, String author, String description, String timeDate, List<String> potentialSuspects, Boolean openCase) {
         this.caseId = caseId;
         this.timeStamp = timeStamp;
         this.title = title;
@@ -25,7 +26,7 @@ public class Case {
         this.location = location;
     }
 
-    public String getCaseId() {
+    public UUID getCaseId() {
         return caseId;
     }
 
@@ -61,5 +62,3 @@ public class Case {
         return location;
     }
 }
-
-
