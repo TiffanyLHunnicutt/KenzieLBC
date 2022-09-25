@@ -14,7 +14,8 @@ import static java.util.UUID.randomUUID;
 
 @RestController
 @RequestMapping("/example")
-public class ExampleController {
+public class
+ExampleController {
 
     private ExampleService exampleService;
 
@@ -30,7 +31,7 @@ public class ExampleController {
             return ResponseEntity.notFound().build();
         }
 
-        ExampleResponse exampleResponse = new ExampleResponse();
+
         exampleResponse.setId(example.getId());
         exampleResponse.setName(example.getName());
         return ResponseEntity.ok(exampleResponse);
