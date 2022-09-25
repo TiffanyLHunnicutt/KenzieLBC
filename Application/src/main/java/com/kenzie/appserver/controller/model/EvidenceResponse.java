@@ -5,47 +5,74 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EvidenceResponse {
-    @JsonProperty("caseNumber")
-    private String caseNumber;
+    @JsonProperty("caseId")
+    public String caseId;
+    @JsonProperty("evidenceId")
+    public String evidenceId;
+    @JsonProperty("timeStamp")
+    public String timeStamp;
+    @JsonProperty("location")
+    public String location;
+    @JsonProperty("timeDate")
+    public String timeDate;
+    @JsonProperty("author")
+    public String author;
+    @JsonProperty("description")
+    public String description;
 
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("caseType")
-    private String caseType;
-
-    public String getEvidence() {
-        return evidence;
+    public String getCaseId() {
+        return caseId;
     }
 
-    public void setEvidence(String evidence) {
-        this.evidence = evidence;
+    public void setCaseId(String caseId) {
+        this.caseId = caseId;
     }
 
-    @JsonProperty("evidence")
-    private String evidence;
-
-    public String getCaseNumber() {
-        return caseNumber;
+    public String getEvidenceId() {
+        return evidenceId;
     }
 
-    public void setCaseNumber(String caseNumber) {
-        this.caseNumber = caseNumber;
+    public void setEvidenceId(String evidenceId) {
+        this.evidenceId = evidenceId;
     }
 
-    public String getName() {
-        return name;
+    public String getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
-    public String getCaseType() {
-        return caseType;
+    public String getLocation() {
+        return location;
     }
 
-    public void setCaseType(String caseType) {
-        this.caseType = caseType;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getTimeDate() {
+        return timeDate;
+    }
+
+    public void setTimeDate(String timeDate) {
+        this.timeDate = timeDate;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
