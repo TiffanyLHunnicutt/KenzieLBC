@@ -23,7 +23,7 @@ public class EvidenceRecord {
         this.caseId = caseId;
     }
 
-    @DynamoDBHashKey(attributeName = "evidenceId")
+    @DynamoDBRangeKey(attributeName = "evidenceId")
     public String getEvidenceId() {
         return evidenceId;
     }
