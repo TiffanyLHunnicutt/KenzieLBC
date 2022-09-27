@@ -7,16 +7,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class EvidenceResponse {
     @JsonProperty("caseId")
     public String caseId;
+
     @JsonProperty("evidenceId")
     public String evidenceId;
+
     @JsonProperty("timeStamp")
     public String timeStamp;
+
     @JsonProperty("location")
     public String location;
+
     @JsonProperty("timeDate")
     public String timeDate;
+
     @JsonProperty("author")
     public String author;
+
     @JsonProperty("description")
     public String description;
 
