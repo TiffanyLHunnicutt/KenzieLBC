@@ -10,20 +10,28 @@ public class CaseResponse {
 
     @JsonProperty("caseId")
     public String caseId;
+
     @JsonProperty("timeStamp")
     public String timeStamp;
+
     @JsonProperty("title")
     public String title;
+
     @JsonProperty("author")
     public String author;
+
     @JsonProperty("description")
     public String description;
+
     @JsonProperty("location")
     public String location;
+
     @JsonProperty("timeDate")
     public String timeDate;
+
     @JsonProperty("potentialSuspects")
     public List<String> potentialSuspects;
+
     @JsonProperty("openCase")
     public Boolean openCase;
 
