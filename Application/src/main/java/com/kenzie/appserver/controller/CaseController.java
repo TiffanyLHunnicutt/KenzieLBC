@@ -2,6 +2,7 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.CaseCreateRequest;
 import com.kenzie.appserver.controller.model.CaseResponse;
+import com.kenzie.appserver.controller.model.CaseUpdateRequest;
 import com.kenzie.appserver.service.CaseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,13 @@ public class CaseController {
 
     @PostMapping
     public ResponseEntity<CaseResponse> createCase(@RequestBody CaseCreateRequest createRequest) {
+        //replace this with actual code
+        return null;
+    }
+
+    @PutMapping("/{caseId}")
+    public ResponseEntity<CaseResponse> updateCase(@PathVariable("caseId") String caseId,
+                                                   @RequestBody CaseUpdateRequest updateRequest) {
         //replace this with actual code
         return null;
     }
