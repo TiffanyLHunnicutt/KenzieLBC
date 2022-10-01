@@ -19,61 +19,66 @@ public class CaseService {
     }
 
     public List<Case> findAllOpenCases() {
-        List<Case> case = new ArrayList<>();
+        List<Case> cases = new ArrayList<>();
 
         Iterable<CaseRecord> caseRecordIterable = caseRepository.findAll();
         for (CaseRecord record : caseRecordIterable) {
-            record.add(new Case(record.getCaseId(),
+            cases.add(new Case(record.getCaseId(),
                     record.getTimeStamp(),
                     record.getTitle(),
                     record.getAuthor(),
                     record.getDescription(),
                     record.getLocation(),
                     record.getPotentialSuspects(),
-                    record.getOpenCase();
+                    record.getOpenCase()));
         }
 
-        return case;
+        return cases;
+    }
+    public Case findCaseByCaseId(String caseId) {
+        //implement cache and cache check later...
+        Case casesFromRepository = caseRepository.findById(caseId)
+                .map(cases->new Case(cases.getCaseId()))
+                .orElse(null);
+
+        //implement cache if found then cache logic.
+        return casesFromRepository;
     }
 
-    public Case findCaseByCaseId(String id) {
-        Optional<CaseRecord> optionalRecord = caseRepository.findById(id);
-
-        if (optionalRecord.isPresent()) {
-            CaseRecord record = optionalRecord.get();
-            return new CaseRecord(record.getCaseId(id));
-        } else {
-            return null;
-        }
-    }
 
     public Case addNewCase(Case caseToAdd) {
         CaseRecord caseRecord = new CaseRecord();
-        caseRecord.setCaseId(caseRecord.getCaseId());
-        caseRecord.setTimeStamp(caseRecord.getTimeStamp());
-        caseRecord.setTitle(caseRecord.getTitle());
-        caseRecord.setAuthor(caseRecord.getAuthor());
-        caseRecord.setDescription(caseRecord.getDescription());
-        caseRecord.setLocation(caseRecord.getLocation());
-        caseRecord.setTimeDate(caseRecord.getTimeDate());
-        caseRecord.setPotentialSuspects(caseRecord.getPotentialSuspects());
-        caseRecord.setOpenCase(caseRecord.getOpenCase());
+        caseRecord.setCaseId(caseToAdd.getCaseId());
+        caseRecord.setTimeStamp(caseToAdd.getTimeStamp());
+        caseRecord.setTitle(caseToAdd.getTitle());
+        caseRecord.setAuthor(caseToAdd.getAuthor());
+        caseRecord.setDescription(caseToAdd.getDescription());
+        caseRecord.setLocation(caseToAdd.getLocation());
+        caseRecord.setTimeDate(caseToAdd.getTimeDate());
+        caseRecord.setPotentialSuspects(caseToAdd.getPotentialSuspects());
+        caseRecord.setOpenCase(caseToAdd.getOpenCase());
         caseRepository.save(caseRecord);
         return caseToAdd;
     }
 
 
     public void updateCase(Case caseToUpdate) {
-        CaseRecord caseRecord = new CaseRecord();
-        caseRecord.setCaseId(caseRecord.getCaseId());
-        caseRecord.setTimeStamp(caseRecord.getTimeStamp());
-        caseRecord.setTitle(caseRecord.getTitle());
-        caseRecord.setAuthor(caseRecord.getAuthor());
-        caseRecord.setDescription(caseRecord.getDescription());
-        caseRecord.setLocation(caseRecord.getLocation());
-        caseRecord.setTimeDate(caseRecord.getTimeDate());
-        caseRecord.setPotentialSuspects(caseRecord.getPotentialSuspects());
-        caseRecord.setOpenCase(caseRecord.getOpenCase());
-        caseRepository.save(caseRecord);
+        if (caseRepository.existsById(caseToUpdate.getCaseId())) {
+            CaseRecord caseRecord = new CaseRecord();
+            caseRecord.setCaseId(caseRecord.getCaseId());
+            caseRecord.setTimeStamp(caseRecord.getTimeStamp());
+            caseRecord.setTitle(caseRecord.getTitle());
+            caseRecord.setAuthor(caseRecord.getAuthor());
+            caseRecord.setDescription(caseRecord.getDescription());
+            caseRecord.setLocation(caseRecord.getLocation());
+            caseRecord.setTimeDate(caseRecord.getTimeDate());
+            caseRecord.setPotentialSuspects(caseRecord.getPotentialSuspects());
+            caseRecord.setOpenCase(caseRecord.getOpenCase());
+            caseRepository.save(caseRecord);
+        }
+    }
+
+    public void deleteCase(String caseId){
+        caseRepository.deleteById(caseId);
     }
 }
