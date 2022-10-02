@@ -3,9 +3,9 @@ package com.kenzie.appserver.service.model;
 import java.util.UUID;
 
 public class Evidence {
-    private final UUID caseId;
-    private final UUID evidenceId;
-    private final String timeStamp;
+    private UUID caseId;
+    private UUID evidenceId;
+    private String timeStamp;
     private String location;
     private String timeDate;
     private String author;
@@ -19,6 +19,10 @@ public class Evidence {
         this.timeDate = timeDate;
         this.author = author;
         this.description = description;
+    }
+
+    public Evidence(UUID caseId) {
+        this.caseId = caseId;
     }
 
     public UUID getCaseId() {
