@@ -1,5 +1,6 @@
 package com.kenzie.appserver.service.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class Case {
         this.author = author;
         this.description = description;
         this.timeDate = timeDate;
-        this.potentialSuspects = potentialSuspects;
+        this.potentialSuspects = new ArrayList<>(potentialSuspects);
         this.openCase = openCase;
         this.location = location;
     }

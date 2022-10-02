@@ -2,7 +2,6 @@ package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
-//tati is doing record this week for model
 @DynamoDBTable(tableName = "EvidenceRecord")
 public class EvidenceRecord {
     public String caseId;
