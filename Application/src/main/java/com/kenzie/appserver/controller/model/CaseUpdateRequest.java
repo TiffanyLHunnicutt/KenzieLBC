@@ -15,24 +15,6 @@ public class CaseUpdateRequest {
     @JsonProperty("openCase")
     private Boolean openCase;
 
-    @JsonProperty("caseId")
-    private String caseId;
-
-    @JsonProperty("timeStamp")
-    private String timeStamp;
-
-    @JsonProperty("timeDate")
-    private String timeDate;
-
-    @JsonProperty("location")
-    private String location;
-
-    @JsonProperty("author")
-    private String author;
-
-    @JsonProperty("title")
-    private String title;
-
     public String getDescription() {
         return description;
     }

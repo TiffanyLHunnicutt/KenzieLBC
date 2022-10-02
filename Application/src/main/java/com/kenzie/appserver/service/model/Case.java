@@ -4,17 +4,18 @@ import java.util.List;
 import java.util.UUID;
 
 public class Case {
-    private  String caseId;
-    private  String timeStamp;
-    private String title;
-    private String author;
-    private String description;
-    private String timeDate;
-    private String location;
-    private List<String> potentialSuspects;
-    private Boolean openCase;
+    private final UUID caseId;
+    private final String timeStamp;
+    private final String title;
+    private final String author;
+    private final String description;
+    private final String timeDate;
+    private final String location;
+    private final List<String> potentialSuspects;
+    private final Boolean openCase;
 
-    public Case(String caseId, String location, String timeStamp, String title, String author, String description, String timeDate, List<String> potentialSuspects, Boolean openCase) {
+    public Case(UUID caseId, String timeStamp, String title, String author, String description,
+                String location, String timeDate, List<String> potentialSuspects, Boolean openCase) {
         this.caseId = caseId;
         this.timeStamp = timeStamp;
         this.title = title;
@@ -26,21 +27,7 @@ public class Case {
         this.location = location;
     }
 
-    public Case (String caseId){
-        this.caseId = caseId;
-    }
-
-    public Case(String caseId, String timeStamp, String title, String author, String description, String location, List<String> potentialSuspects, Boolean openCase) {
-
-
-
-    }
-
-    public Case(String description, Boolean openCase, List<String> potentialSuspects) {
-
-    }
-
-    public String getCaseId() {
+    public UUID getCaseId() {
         return caseId;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,74 +29,84 @@ public class CaseController {
 
     @GetMapping("/all")
     public ResponseEntity<List<CaseResponse>> getAllOpenCases() {
-        //replace with actual code
         List<Case> allCases = caseService.findAllOpenCases();
         if (allCases == null || allCases.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+
         List<CaseResponse> caseResponses = new ArrayList<>();
-        for (Case case3 : allCases) {
-            caseResponses.add(caseResponse(case3));
+        for (Case cased : allCases) {
+            caseResponses.add(caseResponse(cased));
         }
+
         return ResponseEntity.ok(caseResponses);
     }
 
-
-
     @GetMapping("/{caseId}")
     public ResponseEntity<CaseResponse> getCase(@PathVariable("caseId") String caseId) {
-        Case case1 = caseService.findCaseByCaseId(caseId);
-        if (case1 == null) {
+        Case caseToGet = caseService.findCaseByCaseId(caseId);
+        if (caseToGet == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(caseResponse(case1));
+        return ResponseEntity.ok(caseResponse(caseToGet));
     }
 
     @PostMapping
     public ResponseEntity<CaseResponse> createCase(@RequestBody CaseCreateRequest createRequest) {
-        //replace this with actual code
-        Case case4 = new Case(randomUUID().toString());
-        caseService.addNewCase(case4);
+        Case caseToAdd = new Case(randomUUID(),
+                LocalDateTime.now().toString(),
+                createRequest.getTitle(),
+                createRequest.getAuthor(),
+                createRequest.getDescription(),
+                createRequest.getTimeDate(),
+                createRequest.getLocation(),
+                createRequest.getPotentialSuspects(),
+                true);
+        caseService.addNewCase(caseToAdd);
 
-        CaseResponse caseResponse1 = new CaseResponse();
-        caseResponse1.setTitle(case4.getTitle());
-        caseResponse1.setCaseId(case4.getCaseId());
-        caseResponse1.setOpenCase(case4.getOpenCase());
-        caseResponse1.setLocation(case4.getLocation());
-        caseResponse1.setDescription(case4.getDescription());
-        caseResponse1.setAuthor(case4.getAuthor());
-        caseResponse1.setTimeStamp(case4.getTimeStamp());
-        caseResponse1.setPotentialSuspects(case4.getPotentialSuspects());
-        caseResponse1.setTimeDate(case4.getTimeDate());
-        return ResponseEntity.created(URI.create("/case/" + caseResponse1.getCaseId())).body(caseResponse1);
+        CaseResponse caseResponse = caseResponse(caseToAdd);
+        return ResponseEntity.created(URI.create("/cases/" + caseResponse.getCaseId())).body(caseResponse);
     }
 
     @PutMapping("/{caseId}")
-    public ResponseEntity<CaseResponse> updateCase(@RequestBody CaseUpdateRequest updateRequest) {
-        //replace this with actual code
-        Case case5 = new Case(updateRequest.getDescription(),
-                updateRequest.getOpenCase(),
-                updateRequest.getPotentialSuspects());
-        CaseResponse caseResponse1 = caseResponse(case5);
-        return ResponseEntity.ok(caseResponse1);
+    public ResponseEntity<CaseResponse> updateCase(@PathVariable("caseId") String caseId,
+                                                   @RequestBody CaseUpdateRequest updateRequest) {
+        Case grabCase = caseService.findCaseByCaseId(caseId);
+        if(grabCase == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Case caseUpdate = new Case(grabCase.getCaseId(),
+                grabCase.getTimeStamp(),
+                grabCase.getTitle(),
+                grabCase.getAuthor(),
+                updateRequest.getDescription(),
+                grabCase.getTimeDate(),
+                grabCase.getLocation(),
+                updateRequest.getPotentialSuspects(),
+                updateRequest.getOpenCase());
+
+        CaseResponse caseResponse = caseResponse(caseUpdate);
+        return ResponseEntity.ok(caseResponse);
     }
 
     @DeleteMapping("/{caseId}")
-    public ResponseEntity<CaseResponse> deleteCase(@PathVariable("caseId") String caseId) {
+    public ResponseEntity deleteCase(@PathVariable("caseId") String caseId) {
         caseService.deleteCase(caseId);
         return ResponseEntity.noContent().build();
     }
 
-    private CaseResponse caseResponse(Case case2) {
+    private CaseResponse caseResponse(Case caseToResponse) {
         CaseResponse response = new CaseResponse();
-        response.setCaseId(case2.getCaseId());
-        response.setTimeStamp(case2.getTimeStamp());
-        response.setAuthor(case2.getAuthor());
-        response.setDescription(case2.getDescription());
-        response.setLocation(case2.getLocation());
-        response.setTimeDate(case2.getTimeDate());
-        response.setPotentialSuspects(case2.getPotentialSuspects());
-        response.setTitle(case2.getTitle());
+        response.setCaseId(caseToResponse.getCaseId().toString());
+        response.setTimeStamp(caseToResponse.getTimeStamp());
+        response.setTitle(caseToResponse.getTitle());
+        response.setAuthor(caseToResponse.getAuthor());
+        response.setDescription(caseToResponse.getDescription());
+        response.setLocation(caseToResponse.getLocation());
+        response.setTimeDate(caseToResponse.getTimeDate());
+        response.setPotentialSuspects(caseToResponse.getPotentialSuspects());
+        response.setOpenCase(caseToResponse.getOpenCase());
         return response;
     }
 }
