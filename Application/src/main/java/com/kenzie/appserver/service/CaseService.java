@@ -2,14 +2,12 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.CaseRepository;
 import com.kenzie.appserver.repositories.model.CaseRecord;
-import com.kenzie.appserver.repositories.model.ExampleRecord;
 import com.kenzie.appserver.service.model.Case;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -44,7 +42,7 @@ public class CaseService {
     }
 
     public Case findCaseByCaseId(String caseId) {
-        //potentially implement cache and cache check later...
+        //potentially implement cache and cache check later with cache if found then cache logic...
         Case casesFromRepository = caseRepository.findById(caseId)
                 .map(caseMatch -> new Case(UUID.fromString(caseMatch.getCaseId()),
                         caseMatch.getTimeStamp(),
@@ -56,8 +54,6 @@ public class CaseService {
                         caseMatch.getPotentialSuspects(),
                         caseMatch.getOpenCase() ))
                 .orElse(null);
-
-        //potentially implement cache if found then cache logic.
         return casesFromRepository;
     }
 
