@@ -44,7 +44,7 @@ public class EvidenceService {
 
     public Evidence addNewEvidence(Evidence evidenceToAdd) {
         EvidenceRecord evidenceRecord = new EvidenceRecord();
-        evidenceRecord.setCaseId(evidenceToAdd.getCaseId();
+        evidenceRecord.setCaseId(evidenceToAdd.getCaseId());
         evidenceRecord.setTimeStamp(evidenceToAdd.getTimeStamp());
         evidenceRecord.setEvidenceId(evidenceToAdd.getEvidenceId().toString());
         evidenceRecord.setLocation(evidenceRecord.getLocation());
