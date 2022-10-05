@@ -21,15 +21,11 @@ public class Evidence {
         this.description = description;
     }
 
-    public Evidence(UUID caseId) {
-        this.caseId = caseId;
-    }
-
-    public String getCaseId() {
+    public UUID getCaseId() {
         return caseId;
     }
 
-    public String getEvidenceId() {
+    public UUID getEvidenceId() {
         return evidenceId;
     }
 

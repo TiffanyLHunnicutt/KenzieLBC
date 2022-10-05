@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @DynamoDBTable(tableName = "CaseRecord")
 public class CaseRecord {
@@ -98,5 +99,18 @@ public class CaseRecord {
 
     public void setOpenCase(Boolean openCase) {
         this.openCase = openCase;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CaseRecord that = (CaseRecord) o;
+        return Objects.equals(caseId, that.caseId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(caseId);
     }
 }
