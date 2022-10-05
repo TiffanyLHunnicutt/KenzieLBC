@@ -20,23 +20,29 @@ public class EvidenceService {
     public List<Evidence> findAllEvidenceForCase(String caseId) {
         List<Evidence> evidence = new ArrayList<>();
 
-        Iterable<EvidenceRecord> evidenceRecordIterable = evidenceRepository.findAll();
-        for(EvidenceRecord newRecord : evidenceRecordIterable) {
-            evidence.add(new Evidence(UUID.fromString(newRecord.getCaseId()),
-                    UUID.fromString(newRecord.getEvidenceId()),
-                    newRecord.getTimeStamp(),
-                    newRecord.getLocation(),
-                    newRecord.getTimeDate(),
-                    newRecord.getAuthor(),
-                    newRecord.getDescription()));
-
+        List<EvidenceRecord> evidenceRecords = evidenceRepository.findByCaseId(caseId);
+        for (EvidenceRecord record : evidenceRecords) {
+            evidence.add(new Evidence(UUID.fromString(record.getCaseId()),
+                    UUID.fromString(record.getEvidenceId()),
+                    record.getTimeStamp(),
+                    record.getLocation(),
+                    record.getTimeDate(),
+                    record.getAuthor(),
+                    record.getDescription()));
         }
+
         return evidence;
     }
 
-    public Evidence findEvidenceByEvidenceId(String caseId, String evidenceId) {
-        Evidence evidenceFromRepository = evidenceRepository.findById(caseId)
-                .map(evidence->new Evidence(UUID.fromString(evidence.getCaseId())))
+    public Evidence findEvidenceByEvidenceId(String evidenceId) {
+        Evidence evidenceFromRepository = evidenceRepository.findById(evidenceId)
+                .map(evidence -> new Evidence(UUID.fromString(evidence.getCaseId()),
+                        UUID.fromString(evidence.getEvidenceId()),
+                        evidence.getTimeStamp(),
+                        evidence.getLocation(),
+                        evidence.getTimeDate(),
+                        evidence.getAuthor(),
+                        evidence.getDescription()))
                 .orElse(null);
 
         return evidenceFromRepository;
@@ -44,14 +50,14 @@ public class EvidenceService {
 
     public Evidence addNewEvidence(Evidence evidenceToAdd) {
         EvidenceRecord evidenceRecord = new EvidenceRecord();
-        evidenceRecord.setCaseId(evidenceToAdd.getCaseId());
-        evidenceRecord.setTimeStamp(evidenceToAdd.getTimeStamp());
+        evidenceRecord.setCaseId(evidenceToAdd.getCaseId().toString());
         evidenceRecord.setEvidenceId(evidenceToAdd.getEvidenceId().toString());
+        evidenceRecord.setTimeStamp(evidenceToAdd.getTimeStamp());
         evidenceRecord.setLocation(evidenceRecord.getLocation());
+        evidenceRecord.setTimeDate(evidenceRecord.getTimeDate());
         evidenceRecord.setAuthor(evidenceRecord.getAuthor());
         evidenceRecord.setDescription(evidenceRecord.getDescription());
-        evidenceRecord.setTimeDate(evidenceRecord.getTimeDate());
-
+        evidenceRepository.save(evidenceRecord);
         return evidenceToAdd;
     }
 }

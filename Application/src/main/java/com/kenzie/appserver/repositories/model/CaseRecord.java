@@ -2,13 +2,12 @@ package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import net.bytebuddy.matcher.StringSetMatcher;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-//tati is doing record this week for model
 @DynamoDBTable(tableName = "CaseRecord")
 public class CaseRecord {
     public String caseId;
@@ -25,6 +24,7 @@ public class CaseRecord {
     public String getCaseId() {
         return caseId;
     }
+
     public void setCaseId(String caseId) {
         this.caseId = caseId;
     }
@@ -33,6 +33,7 @@ public class CaseRecord {
     public String getTimeStamp() {
         return timeStamp;
     }
+
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
@@ -41,6 +42,7 @@ public class CaseRecord {
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -49,6 +51,7 @@ public class CaseRecord {
     public String getAuthor() {
         return author;
     }
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -57,6 +60,7 @@ public class CaseRecord {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -65,6 +69,7 @@ public class CaseRecord {
     public String getLocation() {
         return location;
     }
+
     public void setLocation(String location) {
         this.location = location;
     }
@@ -73,23 +78,39 @@ public class CaseRecord {
     public String getTimeDate() {
         return timeDate;
     }
+
     public void setTimeDate(String timeDate) {
         this.timeDate = timeDate;
     }
 
     @DynamoDBAttribute(attributeName = "potentialSuspects")
     public List<String> getPotentialSuspects() {
-        return potentialSuspects;
+        return new ArrayList<>(potentialSuspects);
     }
+
     public void setPotentialSuspects(List<String> potentialSuspects) {
-        this.potentialSuspects = potentialSuspects;
+        this.potentialSuspects = new ArrayList<>(potentialSuspects);
     }
 
     @DynamoDBAttribute(attributeName = "openCase")
     public Boolean getOpenCase() {
         return openCase;
     }
+
     public void setOpenCase(Boolean openCase) {
         this.openCase = openCase;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CaseRecord that = (CaseRecord) o;
+        return Objects.equals(caseId, that.caseId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(caseId);
     }
 }

@@ -1,15 +1,14 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.controller.model.CaseResponse;
 import com.kenzie.appserver.controller.model.EvidenceCreateRequest;
 import com.kenzie.appserver.controller.model.EvidenceResponse;
 import com.kenzie.appserver.service.EvidenceService;
-import com.kenzie.appserver.service.model.Case;
 import com.kenzie.appserver.service.model.Evidence;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +27,6 @@ public class EvidenceController {
 
     @GetMapping("/all")
     public ResponseEntity<List<EvidenceResponse>> getAllEvidenceForCase(@PathVariable("caseId") String caseId) {
-        //replace with actual code
         List<Evidence> allEvidence = evidenceService.findAllEvidenceForCase(caseId);
         if (allEvidence == null || allEvidence.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -44,41 +42,40 @@ public class EvidenceController {
     @GetMapping("/{evidenceId}")
     public ResponseEntity<EvidenceResponse> getEvidenceById(@PathVariable("caseId") String caseId,
                                                             @PathVariable("evidenceId") String evidenceId) {
-        //replace with actual code
-        Evidence evidence1 = evidenceService.findEvidenceByEvidenceId(caseId, evidenceId);
-        if (evidence1 == null){
+        Evidence evidence = evidenceService.findEvidenceByEvidenceId(evidenceId);
+        if (evidence == null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(evidenceResponse(evidence1));
+        return ResponseEntity.ok(evidenceResponse(evidence));
     }
 
     @PostMapping
     public ResponseEntity<EvidenceResponse> createEvidence(@PathVariable("caseId") String caseId,
                                                            @RequestBody EvidenceCreateRequest createRequest) {
-        //replace with actual code
-        Evidence evidence2 = new Evidence(UUID.randomUUID());
-        evidenceService.addNewEvidence(evidence2);
+        Evidence evidence = new Evidence(UUID.fromString(caseId),
+                randomUUID(),
+                LocalDateTime.now().toString(),
+                createRequest.getLocation(),
+                createRequest.getTimeDate(),
+                createRequest.getAuthor(),
+                createRequest.getDescription());
+        evidenceService.addNewEvidence(evidence);
 
-        EvidenceResponse evidenceResponse1 = new EvidenceResponse();
-        evidenceResponse1.setCaseId(evidence2.getCaseId());
-        evidenceResponse1.setEvidenceId(evidence2.getEvidenceId());
-        evidenceResponse1.setAuthor(evidence2.getAuthor());
-        evidenceResponse1.setDescription(evidence2.getDescription());
-        evidenceResponse1.setLocation(evidence2.getLocation());
-        evidenceResponse1.setTimeDate(evidence2.getTimeDate());
-        evidenceResponse1.setTimeStamp(evidence2.getTimeStamp());
+        EvidenceResponse evidenceResponse = evidenceResponse(evidence);
 
-        return ResponseEntity.created(URI.create("/evidence/" + evidenceResponse1.getCaseId())).body(evidenceResponse1);
+        return ResponseEntity.created(URI.create("/cases/" + caseId + "/evidence/" +
+                evidenceResponse.getEvidenceId())).body(evidenceResponse);
     }
-    private EvidenceResponse evidenceResponse(Evidence evidence2) {
+
+    private EvidenceResponse evidenceResponse(Evidence evidence) {
         EvidenceResponse response = new EvidenceResponse();
-        response.setCaseId(evidence2.getCaseId());
-        response.setTimeStamp(evidence2.getTimeStamp());
-        response.setAuthor(evidence2.getAuthor());
-        response.setDescription(evidence2.getDescription());
-        response.setLocation(evidence2.getLocation());
-        response.setTimeDate(evidence2.getTimeDate());
-        response.setEvidenceId(evidence2.getEvidenceId());
+        response.setCaseId(evidence.getCaseId().toString());
+        response.setEvidenceId(evidence.getEvidenceId().toString());
+        response.setTimeStamp(evidence.getTimeStamp());
+        response.setAuthor(evidence.getAuthor());
+        response.setDescription(evidence.getDescription());
+        response.setLocation(evidence.getLocation());
+        response.setTimeDate(evidence.getTimeDate());
 
         return response;
     }

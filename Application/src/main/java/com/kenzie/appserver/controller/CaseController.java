@@ -86,6 +86,8 @@ public class CaseController {
                 updateRequest.getPotentialSuspects(),
                 updateRequest.getOpenCase());
 
+        caseService.updateCase(caseUpdate);
+
         CaseResponse caseResponse = caseResponse(caseUpdate);
         return ResponseEntity.ok(caseResponse);
     }

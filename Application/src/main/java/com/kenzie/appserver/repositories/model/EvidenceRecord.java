@@ -2,7 +2,8 @@ package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
-//tati is doing record this week for model
+import java.util.Objects;
+
 @DynamoDBTable(tableName = "EvidenceRecord")
 public class EvidenceRecord {
     public String caseId;
@@ -14,7 +15,7 @@ public class EvidenceRecord {
     public String description;
 
 
-    @DynamoDBHashKey(attributeName = "caseId")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "caseId", attributeName = "caseId")
     public String getCaseId() {
         return caseId;
     }
@@ -23,10 +24,11 @@ public class EvidenceRecord {
         this.caseId = caseId;
     }
 
-    @DynamoDBRangeKey(attributeName = "evidenceId")
+    @DynamoDBHashKey(attributeName = "evidenceId")
     public String getEvidenceId() {
         return evidenceId;
     }
+
     public void setEvidenceId(String evidenceId) {
         this.evidenceId = evidenceId;
     }
@@ -35,6 +37,7 @@ public class EvidenceRecord {
     public String getTimeStamp() {
         return timeStamp;
     }
+
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
@@ -43,6 +46,7 @@ public class EvidenceRecord {
     public String getLocation() {
         return location;
     }
+
     public void setLocation(String location) {
         this.location = location;
     }
@@ -51,6 +55,7 @@ public class EvidenceRecord {
     public String getTimeDate() {
         return timeDate;
     }
+
     public void setTimeDate(String timeDate) {
         this.timeDate = timeDate;
     }
@@ -59,6 +64,7 @@ public class EvidenceRecord {
     public String getAuthor() {
         return author;
     }
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -67,7 +73,21 @@ public class EvidenceRecord {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EvidenceRecord that = (EvidenceRecord) o;
+        return Objects.equals(evidenceId, that.evidenceId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(evidenceId);
     }
 }
