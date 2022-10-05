@@ -25,7 +25,7 @@ public class CaseService {
         Iterable<CaseRecord> caseRecordIterable = caseRepository.findAll();
         for (CaseRecord record : caseRecordIterable) {
             //a check to see if the case is open
-            if(record.getOpenCase()) {
+            if (record.getOpenCase()) {
                 cases.add(new Case(UUID.fromString(record.getCaseId()),
                         record.getTimeStamp(),
                         record.getTitle(),
@@ -52,7 +52,7 @@ public class CaseService {
                         caseMatch.getLocation(),
                         caseMatch.getTimeDate(),
                         caseMatch.getPotentialSuspects(),
-                        caseMatch.getOpenCase() ))
+                        caseMatch.getOpenCase()))
                 .orElse(null);
         return casesFromRepository;
     }
@@ -88,7 +88,7 @@ public class CaseService {
         }
     }
 
-    public void deleteCase(String caseId){
+    public void deleteCase(String caseId) {
         caseRepository.deleteById(caseId);
     }
 }

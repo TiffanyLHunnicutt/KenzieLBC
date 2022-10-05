@@ -6,8 +6,8 @@ import com.kenzie.appserver.service.model.Case;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
-import javax.validation.constraints.AssertTrue;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.*;
 
 class CaseServiceTest {
@@ -320,10 +319,125 @@ class CaseServiceTest {
     }
 
     @Test
-    void addNewCase() {
+    void addNewCase_case_is_added() {
+        // GIVEN
+        Case caseToAdd = new Case(randomUUID(),
+                LocalDateTime.now().toString(),
+                "Test title",
+                "test author",
+                "Nothing to see here, just a test",
+                "nowhere",
+                "never",
+                new ArrayList<>(),
+                true);
+
+        ArgumentCaptor<CaseRecord> recordCaptor = ArgumentCaptor.forClass(CaseRecord.class);
+
+        // WHEN
+        caseService.addNewCase(caseToAdd);
+
+        // THEN
+        verify(caseRepository).save(recordCaptor.capture());
+        CaseRecord captureCase = recordCaptor.getValue();
+
+        Assertions.assertNotNull(captureCase, "case should not be null");
+        Assertions.assertEquals(caseToAdd.getCaseId().toString(), captureCase.getCaseId(),
+                "case Ids should match");
+        Assertions.assertEquals(caseToAdd.getTimeStamp(), captureCase.getTimeStamp(),
+                "time stamps should match");
+        Assertions.assertEquals(caseToAdd.getTitle(), captureCase.getTitle(),
+                "titles should match");
+        Assertions. assertEquals(caseToAdd.getAuthor(), captureCase.getAuthor(),
+                "authors should match");
+        Assertions.assertEquals(caseToAdd.getDescription(), captureCase.getDescription(),
+                "descriptions should match");
+        Assertions.assertEquals(caseToAdd.getLocation(), captureCase.getLocation(),
+                "locations should match");
+        Assertions.assertEquals(caseToAdd.getTimeDate(), captureCase.getTimeDate(),
+                "time date should match");
+        Assertions.assertTrue(captureCase.getPotentialSuspects().isEmpty(),
+                "potential suspects should have been blank");
+        Assertions.assertEquals(caseToAdd.getOpenCase(), captureCase.getOpenCase(),
+                "both cases should be open");
     }
 
     @Test
-    void updateCase() {
+    void updateCase_case_updates() {
+        // GIVEN
+        Case caseToUpdate = new Case(randomUUID(),
+                LocalDateTime.now().toString(),
+                "Test title",
+                "test author",
+                "Nothing to see here, just a test",
+                "nowhere",
+                "never",
+                new ArrayList<>(),
+                true);
+
+        when(caseRepository.existsById(caseToUpdate.getCaseId().toString())).thenReturn(true);
+        ArgumentCaptor<CaseRecord> recordCaptor = ArgumentCaptor.forClass(CaseRecord.class);
+
+        // WHEN
+        caseService.updateCase(caseToUpdate);
+
+        // THEN
+        verify(caseRepository).existsById(caseToUpdate.getCaseId().toString());
+        verify(caseRepository).save(recordCaptor.capture());
+        CaseRecord captureCase = recordCaptor.getValue();
+
+        Assertions.assertNotNull(captureCase, "case should not be null");
+        Assertions.assertEquals(caseToUpdate.getCaseId().toString(), captureCase.getCaseId(),
+                "case Ids should match");
+        Assertions.assertEquals(caseToUpdate.getTimeStamp(), captureCase.getTimeStamp(),
+                "time stamps should match");
+        Assertions.assertEquals(caseToUpdate.getTitle(), captureCase.getTitle(),
+                "titles should match");
+        Assertions. assertEquals(caseToUpdate.getAuthor(), captureCase.getAuthor(),
+                "authors should match");
+        Assertions.assertEquals(caseToUpdate.getDescription(), captureCase.getDescription(),
+                "descriptions should match");
+        Assertions.assertEquals(caseToUpdate.getLocation(), captureCase.getLocation(),
+                "locations should match");
+        Assertions.assertEquals(caseToUpdate.getTimeDate(), captureCase.getTimeDate(),
+                "time date should match");
+        Assertions.assertTrue(captureCase.getPotentialSuspects().isEmpty(),
+                "potential suspects should have been blank");
+        Assertions.assertEquals(caseToUpdate.getOpenCase(), captureCase.getOpenCase(),
+                "both cases should be open");
+    }
+
+    @Test
+    void udateCase_not_legit_id_does_not_update() {
+        // GIVEN
+        Case caseToUpdate = new Case(randomUUID(),
+                LocalDateTime.now().toString(),
+                "Test title",
+                "test author",
+                "Nothing to see here, just a test",
+                "nowhere",
+                "never",
+                new ArrayList<>(),
+                true);
+
+        when(caseRepository.existsById(caseToUpdate.getCaseId().toString())).thenReturn(false);
+
+        // WHEN
+        caseService.updateCase(caseToUpdate);
+
+        // THEN
+        verify(caseRepository).existsById(caseToUpdate.getCaseId().toString());
+        verify(caseRepository, times(0)).save(any());
+    }
+
+    @Test
+    void deleteCase() {
+        // GIVEN
+        String legitCaseId = randomUUID().toString();
+
+        // WHEN
+        caseService.deleteCase(legitCaseId);
+
+        // THEN
+        verify(caseRepository).deleteById(legitCaseId);
     }
 }
