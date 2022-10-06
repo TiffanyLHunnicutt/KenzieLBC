@@ -407,7 +407,7 @@ class CaseServiceTest {
     }
 
     @Test
-    void udateCase_not_legit_id_does_not_update() {
+    void updateCase_not_legit_id_does_not_update() {
         // GIVEN
         Case caseToUpdate = new Case(randomUUID(),
                 LocalDateTime.now().toString(),
