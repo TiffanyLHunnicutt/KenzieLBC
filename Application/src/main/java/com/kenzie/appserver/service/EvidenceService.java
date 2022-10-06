@@ -53,10 +53,10 @@ public class EvidenceService {
         evidenceRecord.setCaseId(evidenceToAdd.getCaseId().toString());
         evidenceRecord.setEvidenceId(evidenceToAdd.getEvidenceId().toString());
         evidenceRecord.setTimeStamp(evidenceToAdd.getTimeStamp());
-        evidenceRecord.setLocation(evidenceRecord.getLocation());
-        evidenceRecord.setTimeDate(evidenceRecord.getTimeDate());
-        evidenceRecord.setAuthor(evidenceRecord.getAuthor());
-        evidenceRecord.setDescription(evidenceRecord.getDescription());
+        evidenceRecord.setLocation(evidenceToAdd.getLocation());
+        evidenceRecord.setTimeDate(evidenceToAdd.getTimeDate());
+        evidenceRecord.setAuthor(evidenceToAdd.getAuthor());
+        evidenceRecord.setDescription(evidenceToAdd.getDescription());
         evidenceRepository.save(evidenceRecord);
         return evidenceToAdd;
     }
