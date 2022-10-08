@@ -14,6 +14,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
 
@@ -58,8 +59,8 @@ public class CaseController {
                 createRequest.getTitle(),
                 createRequest.getAuthor(),
                 createRequest.getDescription(),
-                createRequest.getTimeDate(),
                 createRequest.getLocation(),
+                createRequest.getTimeDate(),
                 createRequest.getPotentialSuspects(),
                 true);
         caseService.addNewCase(caseToAdd);
@@ -81,8 +82,8 @@ public class CaseController {
                 grabCase.getTitle(),
                 grabCase.getAuthor(),
                 updateRequest.getDescription(),
-                grabCase.getTimeDate(),
                 grabCase.getLocation(),
+                grabCase.getTimeDate(),
                 updateRequest.getPotentialSuspects(),
                 updateRequest.getOpenCase());
 
