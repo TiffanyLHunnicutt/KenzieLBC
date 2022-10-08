@@ -3,6 +3,7 @@ package com.kenzie.appserver.service;
 import com.kenzie.appserver.repositories.EvidenceRepository;
 import com.kenzie.appserver.repositories.model.EvidenceRecord;
 import com.kenzie.appserver.service.model.Evidence;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.UUID;
 public class EvidenceService {
     private EvidenceRepository evidenceRepository;
 
+    @Autowired
     public EvidenceService(EvidenceRepository evidenceRepository) {
         this.evidenceRepository = evidenceRepository;
     }
