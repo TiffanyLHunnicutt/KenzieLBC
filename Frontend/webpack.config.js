@@ -26,6 +26,11 @@ module.exports = {
     overlay: true
   },
   plugins: [
+   new HtmlWebpackPlugin({
+        template: './src/admin.html',
+        filename: 'admin.html',
+        inject: false
+      }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
