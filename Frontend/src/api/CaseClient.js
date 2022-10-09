@@ -1,7 +1,7 @@
 import BaseClass from "../util/baseClass";
 import axios from 'axios'
 
-xport default class CaseClient extends BaseClass {
+export default class CaseClient extends BaseClass {
 
     constructor(props = {}){
         super();
