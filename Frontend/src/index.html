@@ -25,7 +25,7 @@
 <body class="background">
 <header class="header" id="header">
     <div class="site-title">
-        <a class="header_home" href="index.html">DetectApp</a>
+        <a class="header_home" href="index.html">DetectApp Case Dashboard</a>
         <a class="header_nav_link button" href="admin.html">See Evidence For Case</a>
     </div>
 </header>
@@ -38,21 +38,21 @@
     <p> You can also add evidence to other cases and see if a case has been solved yet.</p>
 </div>
     <div class="card">
-        <h2>Create Case</h2>
+        <h2>State Your Case!</h2>
         <form class="card-content" id="create-form">
             <p class="form-field">
                 <label>Case Title</label>
                 <input type="text" required class="validated-field" id="create-title-field">
                 <label>Author</label>
-                <input type="text" required class="valid-field" id="create-author-field">
+                <input type="text" class="validated-field" id="create-author-field">
                 <label>Location</label>
-                <input type="text" required class="valid-field" id="create-location-field">
+                <input type="text" required class="validated-field" id="create-location-field">
                 <label>Date Of Incident</label>
-                <input type="text" required class="valid-field" id="create-time-date-field">
+                <input type="date" required class="validated-field" id="create-time-date-field">
                 <label>Description of Case</label>
-                <input type="text" required class="valid-field" id="create-description-field">
+                <input type="text" required class="validated-field" id="create-description-field">
                 <label>If there is any potential suspects, please list them here:</label>
-                <input type="text" required class="valid-field" id="create-potential-suspects-field">
+                <input type="text" class="valid-field" id="create-potential-suspects-field">
             </p>
             <button type="submit">Create</button>
         </form>
