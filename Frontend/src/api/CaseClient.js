@@ -5,7 +5,7 @@ xport default class CaseClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'getExample', 'createExample'];
+        const methodsToBind = ['clientLoaded', 'getAllOpenCases', 'getCase', 'createCase', 'updateCase'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -22,7 +22,7 @@ xport default class CaseClient extends BaseClass {
                      const response = await this.client.get(`/example/${id}`);
                      return response.data;
                  } catch (error) {
-                     this.handleError("getConcert", error, errorCallback)
+                     this.handleError("getCase", error, errorCallback)
                  }
              }
              async createExample(name, errorCallback) {
@@ -32,7 +32,7 @@ xport default class CaseClient extends BaseClass {
                          });
                          return response.data;
                      } catch (error) {
-                         this.handleError("createExample", error, errorCallback);
+                         this.handleError("createCase", error, errorCallback);
                      }
                  }
 handleError(method, error, errorCallback) {
