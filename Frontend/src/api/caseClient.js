@@ -1,11 +1,11 @@
 import BaseClass from "../util/baseClass";
 import axios from 'axios'
 
-export default class EvidenceClient extends BaseClass {
+export default class CaseClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'getAllEvidenceForCase', 'getEvidenceById', 'createEvidence'];
+        const methodsToBind = ['clientLoaded', 'getAllOpenCases', 'getCase', 'createCase', 'updateCase'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -22,7 +22,7 @@ export default class EvidenceClient extends BaseClass {
                      const response = await this.client.get(`/example/${id}`);
                      return response.data;
                  } catch (error) {
-                     this.handleError("getAllEvidenceForCase", error, errorCallback)
+                     this.handleError("getCase", error, errorCallback)
                  }
              }
              async createExample(name, errorCallback) {
@@ -32,7 +32,7 @@ export default class EvidenceClient extends BaseClass {
                          });
                          return response.data;
                      } catch (error) {
-                         this.handleError("createEvidence", error, errorCallback);
+                         this.handleError("createCase", error, errorCallback);
                      }
                  }
 handleError(method, error, errorCallback) {
