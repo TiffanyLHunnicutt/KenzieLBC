@@ -1,47 +1,45 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
-import ExampleClient from "../api/exampleClient";
+import ExampleClient from "../api/CaseClient";
 
-/**
- * Logic needed for the view playlist page of the website.
- */
 class CasePage extends BaseClass {
 
     constructor() {
-        super();
-        this.bindClassMethods(['onStateChange', 'onSelectCase', 'onOpenCases'], this);
-        this.dataStore = new DataStore();
-    }
+            super();
+            this.bindClassMethods(['onGet', 'onCreate', 'renderCase'], this);
+            this.dataStore = new DataStore();
+        }
 
     /**
      * Once the page has loaded, set up the event handlers and fetch the concert list.
      */
     async mount() {
-        document.getElementById('choose-case-form').addEventListener('submit', this.onGet);
-        document.getElementById('add-case-button').addEventListener('click', this.onCreate);
-        document.getElementById('submit-openCase-button').addEventListener('submit', this.onCreate);
+            document.getElementById('get-by-id-form').addEventListener('submit', this.onGet);
+            document.getElementById('create-form').addEventListener('submit', this.onCreate);
+            this.client = new CaseClient();
 
-        this.client = new ExampleClient();
+            this.dataStore.addChangeListener(this.renderCase)
 
-        this.dataStore.addChangeListener(this.renderExample)
-    }
+            //this.fetchConcerts();
+        }
 
     // Render Methods --------------------------------------------------------------------------------------------------
 
-    async renderExample() {
-        let resultArea = document.getElementById("choose-case-input");
+    async renderCase() {
+            let resultArea = document.getElementById("result-info");
 
-        const example = this.dataStore.get("case");
+            const cases = this.dataStore.get("case");
 
-        if (example) {
-            resultArea.innerHTML = `
-                <div>ID: ${example.id}</div>
-                <div>Name: ${example.name}</div>
-            `
-        } else {
-            resultArea.innerHTML = "openCase";
+            if (cases) {
+                resultArea.innerHTML = `
+                    <div>ID: ${cases.caseId}</div>
+                    <div>Title: ${cases.title}</div>
+                    <div>Post Date: ${cases.timeStamp}</div>
+                `
+            } else {
+                resultArea.innerHTML = "No Item";
+            }
         }
-    }
 
     // Event Handlers --------------------------------------------------------------------------------------------------
 
@@ -49,10 +47,10 @@ class CasePage extends BaseClass {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
 
-        let id = document.getElementById("openCases").value;
+        let id = document.getElementById("id-field").value;
         this.dataStore.set("case", null);
 
-        let result = await this.client.getExample(id, this.errorHandler);
+        let result = await this.client.getCase(id, this.errorHandler);
         this.dataStore.set("case", result);
         if (result) {
             this.showMessage(`Got ${result.name}!`)
@@ -66,15 +64,20 @@ class CasePage extends BaseClass {
         event.preventDefault();
         this.dataStore.set("case", null);
 
-        let name = document.getElementById("create-case-field").value;
+        let title = document.getElementById("create-title-field").value;
+        let author = document.getElementById("create-author-field").value;
+        let location = document.getElementById("create-location-field").value;
+        let timeDate = document.getElementById("create-time-date-field").value;
+        let description = document.getElementById("create-description-field").value;
+        let potentialSuspects = document.getElementById("create-potential-suspects-field").value;
 
-        const createdExample = await this.client.createExample(name, this.errorHandler);
+        const createdCase = await this.client.createCase(title, author, description, location, timeDate, potentialSuspects, this.errorHandler);
         this.dataStore.set("case", createdExample);
 
         if (createdExample) {
-            this.showMessage(`Created ${createdExample.name}!`)
+            this.showMessage(`Created ${createdCase.title}!`)
         } else {
-            this.errorHandler("Error creating!  Try again...");
+            this.errorHandler("Error creating! Try again...");
         }
     }
 }
@@ -83,8 +86,8 @@ class CasePage extends BaseClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const examplePage = new ExamplePage();
-    examplePage.mount();
+    const casePage = new CasePage();
+    casePage.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);
