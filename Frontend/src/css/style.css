@@ -1,13 +1,13 @@
 :root {
     /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
-    --primary-color: #131921;
-    --secondary-color: #fff;
+    --primary-color: ##00FFFF;
+    --secondary-color: #6A5ACD;
     --error-color: rgba(194, 0, 0, 0.71);
 }
 
 .background {
-    background-color: #eaeded;
-    margin: 0;
+    background-color: #3CB371;
+    margin: 5;
     counter-reset: section;
 }
 
@@ -22,10 +22,10 @@
 }
 
 .header_home {
-    font-size: 36px;
+    font-size: 55px;
     line-height: 40px;
     height: 100px;
-    text-decoration: none;
+    text-decoration: #FF3028;
     color: var(--secondary-color);
 }
 
