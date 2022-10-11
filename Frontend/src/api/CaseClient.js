@@ -44,7 +44,7 @@ export default class CaseClient extends BaseClass {
                 description: description,
                 location: location,
                 timeDate: timeDate,
-                potentialSuspects: potentialSuspects
+                potentialSuspects: [potentialSuspects]
             });
             return response.data;
         } catch (error) {

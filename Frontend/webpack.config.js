@@ -9,8 +9,7 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
-    casePage: path.resolve(__dirname, 'src', 'pages', 'casePage.js'),
-    examplePage: path.resolve(__dirname, 'src', 'pages', 'evidenceAdmin.js')
+    casePage: path.resolve(__dirname, 'src', 'pages', 'casePage.js')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

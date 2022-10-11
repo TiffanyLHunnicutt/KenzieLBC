@@ -48,12 +48,11 @@ class CasePage extends BaseClass {
         event.preventDefault();
 
         let id = document.getElementById("id-field").value;
-        this.dataStore.set("case", null);
 
         let result = await this.client.getCase(id, this.errorHandler);
         this.dataStore.set("case", result);
         if (result) {
-            this.showMessage(`Got ${result.name}!`)
+            this.showMessage(`Got ${result.title}!`)
         } else {
             this.errorHandler("Error doing GET!  Try again...");
         }
@@ -72,9 +71,10 @@ class CasePage extends BaseClass {
         let potentialSuspects = document.getElementById("create-potential-suspects-field").value;
 
         const createdCase = await this.client.createCase(title, author, description, location, timeDate, potentialSuspects, this.errorHandler);
-        this.dataStore.set("case", createdExample);
+        this.dataStore.set("case", createdCase);
 
-        if (createdExample) {
+
+        if (createdCase) {
             this.showMessage(`Created ${createdCase.title}!`)
         } else {
             this.errorHandler("Error creating! Try again...");
