@@ -17,18 +17,32 @@ export default class EvidenceClient extends BaseClass {
                  this.props.onReady();
              }
          }
-             async getExample(id, errorCallback) {
+             async getAllEvidenceForCase(id, errorCallback) {
                  try {
-                     const response = await this.client.get(`/example/${id}`);
+                     const response = await this.client.get(`/cases/${caseId}/evidence/all`);
                      return response.data;
                  } catch (error) {
                      this.handleError("getAllEvidenceForCase", error, errorCallback)
                  }
              }
-             async createExample(name, errorCallback) {
+               async getEvidenceById(id, errorCallback) {
+                              try {
+                                  const response = await this.client.get(`/cases/${caseId}/evidence/${evidenceId}`);
+                                  return response.data;
+                              } catch (error) {
+                                  this.handleError("getEvidenceById", error, errorCallback)
+                              }
+                          }
+             async createEvidence(author, description, location, timeDate, potentialSuspects, errorCallback) {
                      try {
-                         const response = await this.client.post(`example`, {
-                             name: name
+                         const response = await this.client.post(`/cases/${caseId}/evidence`, {
+
+                         title: title,
+                         author: author,
+                         description: description,
+                         location: location,
+                         timeDate: timeDate,
+                         potentialSuspects: potentialSuspects
                          });
                          return response.data;
                      } catch (error) {
