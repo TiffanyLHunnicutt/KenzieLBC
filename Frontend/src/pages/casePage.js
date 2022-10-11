@@ -1,6 +1,6 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
-import ExampleClient from "../api/CaseClient";
+import CaseClient from "../api/CaseClient";
 
 class CasePage extends BaseClass {
 
