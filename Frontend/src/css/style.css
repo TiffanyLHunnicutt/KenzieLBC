@@ -1,7 +1,7 @@
 :root {
     /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
-    --primary-color: ##00FFFF;
-    --secondary-color: #6A5ACD;
+    --primary-color: #20B2AA;
+    --secondary-color: #4B0082;
     --error-color: rgba(194, 0, 0, 0.71);
 }
 
@@ -25,7 +25,7 @@
     font-size: 55px;
     line-height: 40px;
     height: 100px;
-    text-decoration: #FF3028;
+    text-decoration: #9400D3;
     color: var(--secondary-color);
 }
 
