@@ -36,14 +36,14 @@ export default class EvidenceClient extends BaseClass {
         }
     }
 
-               async getEvidenceById(id, errorCallback) {
-                              try {
-                                  const response = await this.client.get(`/cases/${caseId}/evidence/${evidenceId}`);
-                                  return response.data;
-                              } catch (error) {
-                                  this.handleError("getEvidenceById", error, errorCallback)
-                              }
-                          }
+    async getEvidenceById(caseId, evidenceId, errorCallback) {
+        try {
+            const response = await this.client.get(`/cases/${caseId}/evidence/${evidenceId}`);
+            return response.data;
+        } catch (error) {
+            this.handleError("getEvidenceById", error, errorCallback)
+        }
+    }
 
     async createEvidence(caseId, author, description, location, timeDate, errorCallback) {
         try {

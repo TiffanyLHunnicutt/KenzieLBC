@@ -46,6 +46,8 @@ class EvidenceAdmin extends BaseClass {
             <h5> Open Case: ${caseFile.openCase} </h5>
             </div>
             `;
+            this.onGetAll();
+            this.renderEvidence();
         } else {
             resultArea.innerHTML = "Case Not Present";
         }
@@ -53,58 +55,103 @@ class EvidenceAdmin extends BaseClass {
 
 
     async renderEvidence() {
-            let resultArea = document.getElementById("result-info");
+        let resultArea = document.getElementById("result-info");
 
-            const evidence = this.dataStore.get("evidence");
+        const evidences = this.dataStore.get("evidences");
 
-            if (evidence) {
-//                resultArea.innerHTML = `
-//                    <div>ID: ${/cases/{caseId}/evidence/{evidenceId}}</div>
-//                    <div>Title: ${evidence.title}</div>
-//                    <div>Post Date: ${evidence.timeStamp}</div>
-//                `
-            } else {
-                resultArea.innerHTML = "No evidence";
+        if (evidences) {
+            let evidenceHTML = "";
+            for (let evidence of evidences) {
+                evidenceHTML += `<div class="card">
+                <h2> ${evidence.author} </h2>
+                <h3> Posted on: ${evidence.timeStamp} </h3>
+                <h3> ${evidence.evidenceId} </h3>
+                <h4> Evidence Found At: ${evidence.location} </h4>
+                <h4> Date Of Evidence: ${evidence.timeDate} </h4>
+                <p> ${evidence.description} </p>
+                </div>
+                `;
             }
+            resultArea.innerHTML = evidenceHTML;
+        } else {
+            resultArea.innerHTML = "No evidence";
+        }
     }
 
     // Event Handlers --------------------------------------------------------------------------------------------------
 
     async onGetCase(event) {
-            // Prevent the page from refreshing on form submit
-            event.preventDefault();
+        // Prevent the page from refreshing on form submit
+        event.preventDefault();
 
-            let id = document.getElementById("case-id-field").value;
+        let id = document.getElementById("case-id-field").value;
 
-            let result = await this.client.getCase(id, this.errorHandler);
-            this.dataStore.set("case", result);
-            if (result) {
-                this.showMessage(`Got ${result.title}!`);
-                this.renderCaseFile();
-            } else {
-                this.errorHandler("Error doing GET!  Try again...");
-            }
+        let result = await this.client.getCase(id, this.errorHandler);
+        this.dataStore.set("case", result);
+        if (result) {
+            this.showMessage(`Got ${result.title}!`);
+            this.renderCaseFile();
+        } else {
+            this.errorHandler("Error doing GET!  Try again...");
+        }
     }
 
     async onGetAll(event) {
-        let result = await this.client.getAllOpenCases(this.dataStore.get("case").caseId, this.errorHandler);
-        this.dataStore.set("cases", result);
+        let result = await this.client.getAllEvidenceForCase(this.dataStore.get("case").caseId, this.errorHandler);
+        this.dataStore.set("evidences", result);
     }
 
     async onGet(event) {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
+        let resultArea = document.getElementById("retrieved-evidence");
 
-        let id = document.getElementById("id-field").value;
+        let caseId = this.dataStore.get("case").caseId
+        let evidenceId = document.getElementById("id-field").value;
         this.dataStore.set("evidence", null);
 
-        let result = await this.client.getEvidenceById(id, this.errorHandler);
+        let result = await this.client.getEvidenceById(caseId, evidenceId, this.errorHandler);
         this.dataStore.set("evidence", result);
         if (result) {
-            this.showMessage(`Got ${result.name}!`)
+            this.showMessage(`Got ${result.author}!`);
+            resultArea.innerHTML = `<div class="card">
+                        <h2> ${result.author} </h2>
+                        <h3> Posted on: ${result.timeStamp} </h3>
+                        <h3> ${result.evidenceId} </h3>
+                        <h4> Evidence Found At: ${result.location} </h4>
+                        <h4> Date Of Evidence: ${result.timeDate} </h4>
+                        <p> ${result.description} </p>
+                        </div>
+                        `;
         } else {
             this.errorHandler("Error doing GET!  Try again...");
         }
+
+//        // Prevent the page from refreshing on form submit
+//                event.preventDefault();
+//                let resultArea = document.getElementById("retrieved-case");
+//
+//                let id = document.getElementById("id-field").value;
+//
+//                let result = await this.client.getCase(id, this.errorHandler);
+//                this.dataStore.set("case", result);
+//                if (result) {
+//                    this.showMessage(`Got ${result.title}!`);
+//                    resultArea.innerHTML = `<div class="card">
+//                    <h2> ${result.title} </h2>
+//                    <h3> Posted on: ${result.timeStamp} </h3>
+//                    <h3> ${result.caseId} </h3>
+//                    <h4> By: ${result.author} </h4>
+//                    <h4> Location Of Crime: ${result.location} </h4>
+//                    <h4> Date Of crime: ${result.timeDate} </h4>
+//                    <p> ${result.description} </p>
+//                    <h4> Potential Suspects: ${result.potentialSuspects} </h4>
+//                    <h5> Open Case: ${result.openCase} </h5>
+//                    </div>
+//                    `;
+//                } else {
+//                    this.errorHandler("Error doing GET!  Try again...");
+//                }
     }
 
     async onCreate(event) {
