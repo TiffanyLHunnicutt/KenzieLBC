@@ -38,13 +38,13 @@ export default class CaseClient extends BaseClass {
 
     async createCase(title, author, description, location, timeDate, potentialSuspects, errorCallback) {
         try {
-            const response = await this.client.post(`cases`, {
-                title: title,
-                author: author,
-                description: description,
-                location: location,
-                timeDate: timeDate,
-                potentialSuspects: [potentialSuspects]
+            const response = await this.client.post(`/cases`, {
+                "title": title,
+                "author": author,
+                "description": description,
+                "location": location,
+                "timeDate": timeDate,
+                "potentialSuspects": [potentialSuspects]
             });
             return response.data;
         } catch (error) {
@@ -55,9 +55,9 @@ export default class CaseClient extends BaseClass {
     async updateCase(caseId, description, potentialSuspects, openCase, errorCallback) {
         try {
             const response = await this.client.put(`/cases/${caseId}`, {
-                description: description,
-                potentialSuspects: potentialSuspects,
-                openCase: openCase
+                "description": description,
+                "potentialSuspects": potentialSuspects,
+                "openCase": openCase
             });
             return response.data;
         } catch (error) {
