@@ -57,6 +57,7 @@ body {
     color: black;
     border: 1px solid black;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .button:hover, button:hover {
@@ -65,11 +66,21 @@ body {
 
 
 .card {
+    color: black;
+    background-color: orange;opacity: 0.6;
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.outer-card {
     color: var(--primary-color);
     background-color: transparent;
     margin: 20px;
     padding: 10px 20px;
     font-size: 20px;
+    border-radius: 5px;
 }
 
 .validated-field:invalid {

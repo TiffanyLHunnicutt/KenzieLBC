@@ -9,7 +9,8 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
-    casePage: path.resolve(__dirname, 'src', 'pages', 'casePage.js')
+    casePage: path.resolve(__dirname, 'src', 'pages', 'casePage.js'),
+    evidenceAdmin: path.resolve(__dirname, 'src', 'pages', 'evidenceAdmin.js')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -32,7 +33,7 @@ module.exports = {
         filename: 'admin.html',
         inject: false
       }),
-    new HtmlWebpackPlugin({
+   new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
       inject: false

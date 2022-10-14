@@ -6,7 +6,7 @@ class EvidenceAdmin extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onGet', 'onCreate', 'renderEvidence'], this);
+        this.bindClassMethods(['onGet', 'onGetCase', 'onCreate', 'renderEvidence', 'renderCaseFile'], this);
         this.dataStore = new DataStore();
     }
 
@@ -14,16 +14,43 @@ class EvidenceAdmin extends BaseClass {
      * Once the page has loaded, set up the event handlers and fetch the concert list.
      */
     async mount() {
-            document.getElementById('get-by-id-form').addEventListener('submit', this.onGet);
-            document.getElementById('create-form').addEventListener('submit', this.onCreate);
-            this.client = new evidenceClient();
+        document.getElementById('get-by-id-form').addEventListener('submit', this.onGet);
+        document.getElementById('case-id-view').addEventListener('submit', this.onGetCase);
+        document.getElementById('create-evidence-form').addEventListener('submit', this.onCreate);
+        this.client = new EvidenceClient();
 
-            this.dataStore.addChangeListener(this.renderEvidence)
+        this.dataStore.addChangeListener(this.renderEvidence);
+        this.dataStore.addChangeListener(this.renderCaseFile);
 
-            //this.fetchConcerts();
-        }
+        this.renderCaseFile();
+        //this.fetchConcerts();
+    }
 
     // Render Methods --------------------------------------------------------------------------------------------------
+
+    async renderCaseFile() {
+        let resultArea = document.getElementById("present-case");
+
+        const caseFile = this.dataStore.get("case");
+
+        if(caseFile) {
+            resultArea.innerHTML = `<div class="card">
+            <h2> ${caseFile.title} </h2>
+            <h3> Posted on: ${caseFile.timeStamp} </h3>
+            <h3> ${caseFile.caseId} </h3>
+            <h4> By: ${caseFile.author} </h4>
+            <h4> Location Of Crime: ${caseFile.location} </h4>
+            <h4> Date Of crime: ${caseFile.timeDate} </h4>
+            <p> ${caseFile.description} </p>
+            <h4> Potential Suspects: ${caseFile.potentialSuspects} </h4>
+            <h5> Open Case: ${caseFile.openCase} </h5>
+            </div>
+            `;
+        } else {
+            resultArea.innerHTML = "Case Not Present";
+        }
+    }
+
 
     async renderEvidence() {
             let resultArea = document.getElementById("result-info");
@@ -31,17 +58,38 @@ class EvidenceAdmin extends BaseClass {
             const evidence = this.dataStore.get("evidence");
 
             if (evidence) {
-                resultArea.innerHTML = `
-                    <div>ID: ${/cases/{caseId}/evidence/{evidenceId}}</div>
-                    <div>Title: ${evidence.title}</div>
-                    <div>Post Date: ${evidence.timeStamp}</div>
-                `
+//                resultArea.innerHTML = `
+//                    <div>ID: ${/cases/{caseId}/evidence/{evidenceId}}</div>
+//                    <div>Title: ${evidence.title}</div>
+//                    <div>Post Date: ${evidence.timeStamp}</div>
+//                `
             } else {
                 resultArea.innerHTML = "No evidence";
             }
     }
 
     // Event Handlers --------------------------------------------------------------------------------------------------
+
+    async onGetCase(event) {
+            // Prevent the page from refreshing on form submit
+            event.preventDefault();
+
+            let id = document.getElementById("case-id-field").value;
+
+            let result = await this.client.getCase(id, this.errorHandler);
+            this.dataStore.set("case", result);
+            if (result) {
+                this.showMessage(`Got ${result.title}!`);
+                this.renderCaseFile();
+            } else {
+                this.errorHandler("Error doing GET!  Try again...");
+            }
+    }
+
+    async onGetAll(event) {
+        let result = await this.client.getAllOpenCases(this.dataStore.get("case").caseId, this.errorHandler);
+        this.dataStore.set("cases", result);
+    }
 
     async onGet(event) {
         // Prevent the page from refreshing on form submit
@@ -62,21 +110,19 @@ class EvidenceAdmin extends BaseClass {
     async onCreate(event) {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
-        this.dataStore.set("evidence", null);
 
-
-        let evidenceId = document.getElementById("create-evidenceId-field").value;
-        let timeStamp = document.getElementById("create-timeStamp-field").value;
+        let caseId = this.dataStore.get("case").caseId;
         let location = document.getElementById("create-location-field").value;
         let timeDate = document.getElementById("create-time-date-field").value;
         let description = document.getElementById("create-description-field").value;
         let author = document.getElementById("create-author-field").value;
 
-        const createdEvidence = await this.client.createEvidence(evidenceId, timeStamp, location, timeDate,  description, author, this.errorHandler);
-        this.dataStore.set("evidence", createdExample);
+        const createdEvidence = await this.client.createEvidence(caseId, author, description, location, timeDate, this.errorHandler);
+        this.dataStore.set("evidence", createdEvidence);
 
-        if (createdExample) {
-            this.showMessage(`Created ${createdEvidence.title}!`)
+        if (createdEvidence) {
+            this.showMessage(`Created ${createdEvidence.evidenceId}!`);
+            this.onGetAll();
         } else {
             this.errorHandler("Error creating! Try again...");
         }
@@ -87,7 +133,7 @@ class EvidenceAdmin extends BaseClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const evidenceAdmin = new evidenceAdmin();
+    const evidenceAdmin = new EvidenceAdmin();
     evidenceAdmin.mount();
 };
 
