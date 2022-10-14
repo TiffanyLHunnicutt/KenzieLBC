@@ -25,35 +25,31 @@ class CasePage extends BaseClass {
     // Render Methods --------------------------------------------------------------------------------------------------
 
     async renderCase() {
-            let resultArea = document.getElementById("result-info");
+        let resultArea = document.getElementById("result-info");
 
-            const cases = this.dataStore.get("cases");
+        const cases = this.dataStore.get("cases");
 
-//            if (cases) {
-//                resultArea.innerHTML = `
-//                    <div>ID: ${cases.caseId}</div>
-//                    <div>Title: ${cases.title}</div>
-//                    <div>Post Date: ${cases.timeStamp}</div>
-//                `
-//            } else {
-//                resultArea.innerHTML = "No Item";
-//            }
-            if (cases) {
-                        let commentsHTML = "<ul>";
-                        for (let comment of cases) {
-                            commentsHTML += `<li>
-                            <h3> ${comment.caseId} </h3>
-                            <h4> by: ${comment.author} </h4>
-                            <p> ${comment.description} </p>
-                            </li>
-                            `;
-                        }
-                        commentsHTML += "</ul>";
-                        resultArea.innerHTML = commentsHTML;
-                    } else {
-                        resultArea.innerHTML = "No open cases";
-                    }
+        if (cases) {
+            let casesHTML = "";
+            for (let cased of cases) {
+                casesHTML += `<div class="card">
+                <h2> ${cased.title} </h2>
+                <h3> Posted on: ${cased.timeStamp} </h3>
+                <h3> ${cased.caseId} </h3>
+                <h4> By: ${cased.author} </h4>
+                <h4> Location Of Crime: ${cased.location} </h4>
+                <h4> Date Of crime: ${cased.timeDate} </h4>
+                <p> ${cased.description} </p>
+                <h4> Potential Suspects: ${cased.potentialSuspects} </h4>
+                <h5> Open Case: ${cased.openCase} </h5>
+                </div>
+                `;
+            }
+            resultArea.innerHTML = casesHTML;
+        } else {
+            resultArea.innerHTML = "No open cases";
         }
+    }
 
     // Event Handlers --------------------------------------------------------------------------------------------------
 
