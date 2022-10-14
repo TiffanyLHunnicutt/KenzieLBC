@@ -42,6 +42,7 @@ class CasePage extends BaseClass {
                 <p> ${cased.description} </p>
                 <h4> Potential Suspects: ${cased.potentialSuspects} </h4>
                 <h5> Open Case: ${cased.openCase} </h5>
+                <a class="header_nav_link button" href="admin.html">See Evidence For Case</a>
                 </div>
                 `;
             }
@@ -76,7 +77,6 @@ class CasePage extends BaseClass {
     async onCreate(event) {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
-        //this.dataStore.set("case", null);
 
         let title = document.getElementById("create-title-field").value;
         let author = document.getElementById("create-author-field").value;
@@ -86,8 +86,6 @@ class CasePage extends BaseClass {
         let potentialSuspects = document.getElementById("create-potential-suspects-field").value;
 
         const createdCase = await this.client.createCase(title, author, description, location, timeDate, potentialSuspects, this.errorHandler);
-        //this.dataStore.set("case", createdCase);
-
 
         if (createdCase) {
             this.showMessage(`Created ${createdCase.title}!`);

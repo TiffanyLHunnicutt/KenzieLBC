@@ -5,10 +5,10 @@ import EvidenceClient from "../api/evidenceClient";
 class EvidenceAdmin extends BaseClass {
 
     constructor() {
-            super();
-            this.bindClassMethods(['onGet', 'onCreate', 'renderEvidence'], this);
-            this.dataStore = new DataStore();
-        }
+        super();
+        this.bindClassMethods(['onGet', 'onCreate', 'renderEvidence'], this);
+        this.dataStore = new DataStore();
+    }
 
     /**
      * Once the page has loaded, set up the event handlers and fetch the concert list.
@@ -39,7 +39,7 @@ class EvidenceAdmin extends BaseClass {
             } else {
                 resultArea.innerHTML = "No evidence";
             }
-        }
+    }
 
     // Event Handlers --------------------------------------------------------------------------------------------------
 

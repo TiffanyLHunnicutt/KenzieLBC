@@ -9,14 +9,20 @@ export default class EvidenceClient extends BaseClass {
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
+    }
 
+    clientLoaded(client) {
+        this.client = client;
+        if (this.props.hasOwnProperty("onReady")){
+            this.props.onReady();
         }
-         clientLoaded(client) {
-             this.client = client;
-             if (this.props.hasOwnProperty("onReady")){
-                 this.props.onReady();
-             }
-         }
+    }
+
+
+
+
+
+
              async getAllEvidenceForCase(id, errorCallback) {
                  try {
                      const response = await this.client.get(`/cases/${caseId}/evidence/all`);
