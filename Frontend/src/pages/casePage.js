@@ -42,6 +42,7 @@ class CasePage extends BaseClass {
                 <p> ${cased.description} </p>
                 <h4> Potential Suspects: ${cased.potentialSuspects} </h4>
                 <h5> Open Case: ${cased.openCase} </h5>
+                <a class="header_nav_link button" href="admin.html">See Evidence For Case</a>
                 </div>
                 `;
             }
@@ -61,13 +62,26 @@ class CasePage extends BaseClass {
     async onGet(event) {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
+        let resultArea = document.getElementById("retrieved-case");
 
         let id = document.getElementById("id-field").value;
 
         let result = await this.client.getCase(id, this.errorHandler);
-        //this.dataStore.set("case", result);
+        this.dataStore.set("case", result);
         if (result) {
-            this.showMessage(`Got ${result.title}!`)
+            this.showMessage(`Got ${result.title}!`);
+            resultArea.innerHTML = `<div class="card">
+            <h2> ${result.title} </h2>
+            <h3> Posted on: ${result.timeStamp} </h3>
+            <h3> ${result.caseId} </h3>
+            <h4> By: ${result.author} </h4>
+            <h4> Location Of Crime: ${result.location} </h4>
+            <h4> Date Of crime: ${result.timeDate} </h4>
+            <p> ${result.description} </p>
+            <h4> Potential Suspects: ${result.potentialSuspects} </h4>
+            <h5> Open Case: ${result.openCase} </h5>
+            </div>
+            `;
         } else {
             this.errorHandler("Error doing GET!  Try again...");
         }
@@ -76,7 +90,6 @@ class CasePage extends BaseClass {
     async onCreate(event) {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
-        //this.dataStore.set("case", null);
 
         let title = document.getElementById("create-title-field").value;
         let author = document.getElementById("create-author-field").value;
@@ -86,8 +99,6 @@ class CasePage extends BaseClass {
         let potentialSuspects = document.getElementById("create-potential-suspects-field").value;
 
         const createdCase = await this.client.createCase(title, author, description, location, timeDate, potentialSuspects, this.errorHandler);
-        //this.dataStore.set("case", createdCase);
-
 
         if (createdCase) {
             this.showMessage(`Created ${createdCase.title}!`);

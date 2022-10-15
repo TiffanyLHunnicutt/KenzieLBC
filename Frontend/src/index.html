@@ -9,11 +9,11 @@
 <header class="header" id="header">
     <div class="site-title">
         <a class="header_home" href="index.html">DetectApp Case Dashboard</a>
-        <a class="header_nav_link button" href="admin.html">See Evidence For Case</a>
+        <a class="header_nav_link button" href="admin.html">Go To Evidence Page</a>
     </div>
 </header>
 <p class="about">
-    Welcome to DetectApp!  Kenzie's #1 detective service for getting problems solved.
+    Welcome to DetectApp! Kenzie's #1 detective service for getting problems solved.
 </p>
 <div class="card">
     <h3>How to use DetectApp</h3>
@@ -40,7 +40,7 @@
             <button type="submit">Create</button>
         </form>
     </div>
-    <div class="card">
+    <div class="outer-card">
         <h2>Get By ID</h2>
         <form class="card-content" id="get-by-id-form">
             <p class="form-field">
@@ -48,9 +48,10 @@
                 <input type="text" required class="validated-field" id="id-field">
             </p>
             <button type="submit">Get</button>
+            <p id="retrieved-case"></p>
         </form>
     </div>
-    <div class="card" id="result">
-        <h2>Result:</h2>
+    <div class="outer-card" id="result">
+        <h2>Open Cases:</h2>
         <p id="result-info"></p>
     </div>
